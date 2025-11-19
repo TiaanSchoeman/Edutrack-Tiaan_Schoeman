@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Edutrack | Resources</title>
+  <link rel="stylesheet" href="CSS/admin.css" />
+ <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" as="style" onload="this.rel='stylesheet'" />
+
+</head>
+
+<body>
+<aside class="sidebar">
+  <div>
+    <div class="logo">
+      <img src="https://i.pinimg.com/736x/27/d6/ad/27d6ad0843c149d09f5cbf1baf20b631.jpg" alt="logo" />
+      <h2>Edutrack</h2>
+    </div>
+    <nav>
+      <a href="dashboard.html" ><i class="fa-solid fa-house"></i> Dashboard</a>
+      <a href="uploadpage.html"><i class="fa-solid fa-circle-up"></i> Uploads</a>
+      <a href="downloadpage.html"><i class="fa-regular fa-circle-down"></i> Downloads</a>
+      <a href="resourcespage.html" class="active"><i class="fa-solid fa-file"></i> Resources</a>
+      <a href="profile.html"><i class="fa-solid fa-user"></i> Profile</a>
+      <a href="contactpage.html"><i class="fa-solid fa-comment"></i> Contact</a>
+    </nav>
+  </div>
+  <button class="logout-btn" onclick="logoutUser()"><i class="fa-regular fa-circle-xmark"></i> Logout</button>
+</aside>
+
+<main class="main-content">
+  <header><h1>Study Resources</h1></header>
+
+  <section class="section">
+    <div class="download-search">
+      <input type="text" placeholder="Search resources..." id="resourceSearch" onkeyup="filterResources()">
+    </div>
+
+    <h2 class="section-heading">Featured Resources</h2>
+    <div class="download-container featured-resources">
+      <div class="download-card">
+        <div><i class="fa-solid fa-laptop-code"></i> Web Development Guide</div>
+        <a href="#" class="btn"><i class="fa-solid fa-download"></i> Download</a>
+      </div>
+      <div class="download-card">
+        <div><i class="fa-solid fa-database"></i> Database System Notes</div>
+        <a href="#" class="btn"><i class="fa-solid fa-download"></i> Download</a>
+      </div>
+      <div class="download-card">
+        <div><i class="fa-solid fa-file-lines"></i> Software Engineering Template</div>
+        <a href="#" class="btn"><i class="fa-solid fa-download"></i> Download</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="section-heading">All Resources</h2>
+    <ul class="notice-board" id="resourceList">
+      <li><i class="fa-solid fa-laptop-code"></i> Web Development Guide – <a href="#"><i class="fa-solid fa-download"></i> Download</a></li>
+      <li><i class="fa-solid fa-database"></i> Database System Notes – <a href="#"><i class="fa-solid fa-download"></i> Download</a></li>
+      <li><i class="fa-solid fa-file-lines"></i> Software Engineering Template – <a href="#"><i class="fa-solid fa-download"></i> Download</a></li>
+      <li><i class="fa-brands fa-html5"></i> HTML & CSS Cheatsheet – <a href="#"><i class="fa-solid fa-download"></i> Download</a></li>
+      <li><i class="fa-brands fa-js-square"></i> JavaScript Guide – <a href="#"><i class="fa-solid fa-download"></i> Download</a></li>
+      <li><i class="fa-brands fa-python"></i> Python Notes – <a href="#"><i class="fa-solid fa-download"></i> Download</a></li>
+    </ul>
+  </section>
+</main>
+<script src="https://kit.fontawesome.com/d6e9d7304f.js" crossorigin="anonymous"></script>
+<script src="JS/admin.js"></script>
+  <script src="JS/firebase.js"></script>
+<script>
+function filterResources() {
+  const input = document.getElementById('resourceSearch').value.toLowerCase();
+  const list = document.getElementById('resourceList');
+  const items = list.getElementsByTagName('li');
+  for(let i = 0; i < items.length; i++){
+    let text = items[i].textContent || items[i].innerText;
+    items[i].style.display = text.toLowerCase().includes(input) ? '' : 'none';
+  }
+}
+</script>
+  <script type="module">
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+
+onAuthStateChanged(auth, (user) => {
+    if (!user) {
+        window.location.href = "../Public/loginpage.html";
+    }
+});
+</script>
+
+</body>
+</html>

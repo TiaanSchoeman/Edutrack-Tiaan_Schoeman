@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Edutrack | Dashboard</title>
+  <link rel="stylesheet" href="CSS/admin.css" />
+  <script src="https://kit.fontawesome.com/d6e9d7304f.js" crossorigin="anonymous"></script>
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" as="style" onload="this.rel='stylesheet'" />
+</head>
+<body>
+<aside class="sidebar">
+  <div>
+    <div class="logo">
+      <img src="https://i.pinimg.com/736x/27/d6/ad/27d6ad0843c149d09f5cbf1baf20b631.jpg" alt="logo" />
+      <h2>Edutrack</h2>
+    </div>
+    <nav>
+      <a href="dashboard.html" class="active"><i class="fa-solid fa-house"></i> Dashboard</a>
+      <a href="uploadpage.html"><i class="fa-solid fa-circle-up"></i> Uploads</a>
+      <a href="downloadpage.html"><i class="fa-regular fa-circle-down"></i> Downloads</a>
+      <a href="resourcespage.html"><i class="fa-solid fa-file"></i> Resources</a>
+      <a href="profile.html"><i class="fa-solid fa-user"></i> Profile</a>
+      <a href="contactpage.html"><i class="fa-solid fa-comment"></i> Contact</a>
+    </nav>
+  </div>
+  <button class="logout-btn" onclick="logoutUser()"><i class="fa-regular fa-circle-xmark"></i> Logout</button>
+</aside>
+
+<main class="main-content">
+  <header class="greeting-banner">
+    <div>
+      <h1>Welcome back, <span id="studentName">Student</span></h1>
+      <p>Stay updated on your upcoming assessments and performance progress.</p>
+    </div>
+    <div class="user-profile">
+      <i class="fa-regular fa-user"></i>
+      <a href="profile.html"><span id="topStudentName">Student</span></a>
+    </div>
+  </header>
+
+  <!-- Notice Board -->
+  <section class="section notice-section">
+    <h2 class="section-heading"><i class="fa-solid fa-bullhorn"></i> Notice Board</h2>
+    <div class="cards-wrapper">
+      <ul class="notice-board">
+        <li><i class="fa-solid fa-calendar"></i> Semester 2 registration opens <strong>20 Nov 2025</strong>.</li>
+        <li><i class="fa-solid fa-book"></i> Web Development midterm assessment due <strong>18 Nov 2025</strong>.</li>
+        <li><i class="fa-solid fa-briefcase"></i> Career workshop on <strong>25 Nov 2025</strong> in Hall 3.</li>
+        <li><i class="fa-solid fa-laptop-code"></i> New programming tutorials uploaded to Resources.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Upcoming Assessments -->
+  <section class="section upcoming-section">
+    <h2 class="section-heading"><i class="fa-solid fa-folder"></i> Upcoming Assessments</h2>
+    <div class="cards-wrapper upcoming-list">
+      <div class="upcoming-card">
+        <h3>Database Systems</h3>
+        <p>Final Project — Due: <strong>22 Nov 2025</strong></p>
+      </div>
+      <div class="upcoming-card">
+        <h3>Software Engineering</h3>
+        <p>Case Study — Due: <strong>27 Nov 2025</strong></p>
+      </div>
+      <div class="upcoming-card">
+        <h3>Networking</h3>
+        <p>Quiz 4 — Due: <strong>30 Nov 2025</strong></p>
+      </div>
+      <div class="upcoming-card">
+        <h3>Web Development</h3>
+        <p>Practical — Due: <strong>2 Dec 2025</strong></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Charts Section -->
+  <section class="section chart-section">
+    <h2 class="section-heading"><i class="fa-regular fa-chart-bar"></i> Student Performance</h2>
+
+    <!-- Row 1: Attendance -->
+    <div class="cards-wrapper chart-row">
+      <div class="chart-container full-width">
+        <h3>Attendance Over Time</h3>
+        <canvas id="attendanceChart"></canvas>
+      </div>
+    </div>
+
+    <!-- Row 2: Grades + Assignment Pie -->
+    <div class="cards-wrapper chart-row">
+      <div class="chart-container half-width">
+        <h3>Grades Over Time</h3>
+        <canvas id="gradesChart"></canvas>
+      </div>
+      <div class="chart-container half-width">
+        <h3>Assignments Status</h3>
+        <canvas id="pieChart"></canvas>
+      </div>
+    </div>
+
+  </section>
+</main>
+
+<script type="module" src="../firebase.js"></script>
+<script type="module" src="JS/admin.js"></script>
+</body>
+</html>

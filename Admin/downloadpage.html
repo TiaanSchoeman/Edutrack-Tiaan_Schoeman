@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Edutrack | Downloads</title>
+<link rel="stylesheet" href="CSS/admin.css">
+<script src="https://kit.fontawesome.com/d6e9d7304f.js" crossorigin="anonymous"></script>
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" as="style" onload="this.rel='stylesheet'" />
+</head>
+<body>
+
+<aside class="sidebar">
+  <div>
+    <div class="logo">
+      <img src="https://i.pinimg.com/736x/27/d6/ad/27d6ad0843c149d09f5cbf1baf20b631.jpg" alt="logo" />
+      <h2>Edutrack</h2>
+    </div>
+    <nav>
+      <a href="dashboard.html"><i class="fa-solid fa-house"></i> Dashboard</a>
+      <a href="uploadpage.html"><i class="fa-solid fa-circle-up"></i> Uploads</a>
+      <a href="downloadpage.html" class="active"><i class="fa-regular fa-circle-down"></i> Downloads</a>
+      <a href="resourcespage.html"><i class="fa-solid fa-file"></i> Resources</a>
+      <a href="profile.html"><i class="fa-solid fa-user"></i> Profile</a>
+      <a href="../Public/contactpage.html"><i class="fa-solid fa-comment"></i> Contact</a>
+    </nav>
+  </div>
+  <button class="logout-btn" onclick="logoutUser()"><i class="fa-regular fa-circle-xmark"></i> Logout</button>
+</aside>
+
+<main class="main-content">
+  <header>
+    <h1>Download Assessments</h1>
+    <div class="download-search">
+      <input type="text" id="searchInput" placeholder="Search downloads..." onkeyup="filterDownloads()">
+    </div>
+  </header>
+
+  <section class="download-section">
+    <h2>Web Development</h2>
+    <div class="download-container" id="webDevDownloads">
+      <div class="download-card"><span>📄 Web Dev Project</span><a href="#" class="btn">Download</a></div>
+      <div class="download-card"><span>📄 Web Dev Quiz</span><a href="#" class="btn">Download</a></div>
+    </div>
+  </section>
+
+  <section class="download-section">
+    <h2>Database Systems</h2>
+    <div class="download-container" id="dbDownloads">
+      <div class="download-card"><span>📄 Database Quiz Answers</span><a href="#" class="btn">Download</a></div>
+      <div class="download-card"><span>📄 Final Project</span><a href="#" class="btn">Download</a></div>
+    </div>
+  </section>
+
+  <section class="download-section">
+    <h2>Software Engineering</h2>
+    <div class="download-container" id="seDownloads">
+      <div class="download-card"><span>📄 Software Engineering Report</span><a href="#" class="btn">Download</a></div>
+    </div>
+  </section>
+
+  <section class="download-section">
+    <h2>Networking</h2>
+    <div class="download-container" id="netDownloads">
+      <div class="download-card"><span>📄 Networking Quiz 4</span><a href="#" class="btn">Download</a></div>
+    </div>
+  </section>
+</main>
+
+<script>
+function logoutUser(){ 
+  localStorage.removeItem("loggedInUser"); 
+  window.location.href="../Public/loginpage.html"; 
+}
+
+function filterDownloads() {
+  const input = document.getElementById("searchInput").value.toLowerCase();
+  const containers = document.querySelectorAll(".download-container");
+  containers.forEach(container => {
+    Array.from(container.children).forEach(card => {
+      const text = card.querySelector("span").textContent.toLowerCase();
+      card.style.display = text.includes(input) ? "flex" : "none";
+    });
+  });
+}
+</script>
+</body>
+</html>

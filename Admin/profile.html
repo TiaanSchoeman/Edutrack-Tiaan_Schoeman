@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Edutrack | Profile</title>
+<link rel="stylesheet" href="CSS/admin.css" />
+<script src="https://kit.fontawesome.com/d6e9d7304f.js" crossorigin="anonymous"></script>
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" as="style" onload="this.rel='stylesheet'" />
+</head>
+<body>
+
+<aside class="sidebar">
+  <div>
+    <div class="logo">
+      <img src="https://i.pinimg.com/736x/27/d6/ad/27d6ad0843c149d09f5cbf1baf20b631.jpg" alt="logo" />
+      <h2>Edutrack</h2>
+    </div>
+    <nav>
+      <a href="dashboard.html"><i class="fa-solid fa-house"></i> Dashboard</a>
+      <a href="uploadpage.html"><i class="fa-solid fa-circle-up"></i> Uploads</a>
+      <a href="downloadpage.html"><i class="fa-regular fa-circle-down"></i> Downloads</a>
+      <a href="resourcespage.html"><i class="fa-solid fa-file"></i> Resources</a>
+      <a href="profile.html" class="active"><i class="fa-solid fa-user"></i> Profile</a>
+      <a href="contactpage.html"><i class="fa-solid fa-comment"></i> Contact</a>
+    </nav>
+  </div>
+  <button class="logout-btn" onclick="logoutUser()"><i class="fa-regular fa-circle-xmark"></i> Logout</button>
+</aside>
+
+<main class="main-content">
+
+<header class="greeting-banner">
+  <div>
+    <h1>Personal Information</h1>
+    <p>Your account details from the Edutrack database.</p>
+  </div>
+  <div class="user-profile">
+    <i class="fa-regular fa-user"></i>
+    <span id="topStudentName">Student</span>
+  </div>
+</header>
+
+<section class="section">
+  <div class="profile-wrapper">
+    <div class="profile-container">
+      <h2 class="profile-title">Profile</h2>
+      <p class="profile-subtitle">Manage and update your personal information.</p>
+
+      <!-- VIEW MODE -->
+      <div id="profileView" class="profile-form">
+        <p><strong>Full Name:</strong> <span id="fullname">Loading...</span></p>
+        <p><strong>Username:</strong> <span id="username">Loading...</span></p>
+        <p><strong>Email:</strong> <span id="email">Loading...</span></p>
+        <p><strong>Phone:</strong> <span id="phone">Loading...</span></p>
+        <button class="edit-btn">Edit Profile</button>
+      </div>
+
+      <!-- EDIT MODE -->
+      <div id="profileEdit" class="profile-form" style="display:none;">
+        <label>Full Name:</label>
+        <input type="text" id="editFullname">
+
+        <label>Email:</label>
+        <input type="email" id="editEmail">
+
+        <label>Phone Number:</label>
+        <input type="text" id="editPhone">
+
+        <button class="save-btn" onclick="saveProfile()">Save Changes</button>
+        <button class="cancel-btn" onclick="cancelEditMode()">Cancel</button>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+</main>
+<script type="module" src="JS/admin.js"></script>
+<script type="module" src="../firebase.js"></script>
+</body>
+</html>

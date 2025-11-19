@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Edutrack | Contact</title>
+  <link rel="stylesheet" href="CSS/admin.css" />
+  <script src="https://kit.fontawesome.com/d6e9d7304f.js" crossorigin="anonymous"></script>
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" as="style" onload="this.rel='stylesheet'" />
+</head>
+<body>
+
+<aside class="sidebar">
+  <div>
+    <div class="logo">
+      <img src="https://i.pinimg.com/736x/27/d6/ad/27d6ad0843c149d09f5cbf1baf20b631.jpg" alt="Edutrack Logo" />
+      <h2>Edutrack</h2>
+    </div>
+    <nav>
+      <a href="dashboard.html"><i class="fa-solid fa-house"></i> Dashboard</a>
+      <a href="uploadpage.html"><i class="fa-solid fa-circle-up"></i> Uploads</a>
+      <a href="downloadpage.html"><i class="fa-regular fa-circle-down"></i> Downloads</a>
+      <a href="resourcespage.html"><i class="fa-solid fa-file"></i> Resources</a>
+      <a href="profile.html"><i class="fa-solid fa-user"></i> Profile</a>
+      <a href="contactpage.html" class="active"><i class="fa-solid fa-comment"></i> Contact</a>
+    </nav>
+  </div>
+  <button class="logout-btn" onclick="logoutUser()">
+    <i class="fa-regular fa-circle-xmark"></i> Logout
+  </button>
+</aside>
+
+<main class="main-content">
+  <header class="greeting-banner">
+    <div>
+      <h1>Contact Us</h1>
+      <p>Reach out to our campuses or send us a message directly.</p>
+    </div>
+  </header>
+
+  <section class="section contact-section">
+    <div class="contact-wrapper">
+      <div class="campus-card">
+        <h3>Main Campus</h3>
+        <p><i class="fa-solid fa-envelope"></i> Email: <a href="mailto:maincampus@edutrack.com">maincampus@edutrack.com</a></p>
+        <p><i class="fa-solid fa-phone"></i> Phone: <a href="tel:+27111234567">+27 11 123 4567</a></p>
+        <p><i class="fa-solid fa-location-dot"></i> Address: 123 Education Ave, Johannesburg, 2000</p>
+      </div>
+
+      <div class="campus-card">
+        <h3>West Campus</h3>
+        <p><i class="fa-solid fa-envelope"></i> Email: <a href="mailto:westcampus@edutrack.com">westcampus@edutrack.com</a></p>
+        <p><i class="fa-solid fa-phone"></i> Phone: <a href="tel:+27119876543">+27 11 987 6543</a></p>
+        <p><i class="fa-solid fa-location-dot"></i> Address: 456 Learning Boulevard, Roodepoort, 1724</p>
+      </div>
+    </div>
+
+    <!-- Optional: Direct Message Form -->
+    <div class="contact-form-container">
+      <h3 class="section-heading">Send us a Message</h3>
+      <form action="#" method="POST" class="contact-form">
+        <div class="form-group">
+          <input type="text" name="name" placeholder="Your Name" required />
+        </div>
+        <div class="form-group">
+          <input type="email" name="email" placeholder="Your Email" required />
+        </div>
+        <div class="form-group">
+          <input type="text" name="subject" placeholder="Subject" required />
+        </div>
+        <div class="form-group">
+          <textarea name="message" rows="6" placeholder="Your Message" required></textarea>
+        </div>
+        <button type="submit" class="contact-submit">Send Message</button>
+      </form>
+    </div>
+  </section>
+</main>
+
+<script>
+  function logoutUser() {
+    // Add your logout logic here (e.g., clear session, redirect to login)
+    if (confirm("Are you sure you want to log out?")) {
+      window.location.href = "login.html"; // Change to your login page
+    }
+  }
+</script>
+
+</body>
+</html>

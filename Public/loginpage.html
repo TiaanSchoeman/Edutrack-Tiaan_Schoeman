@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Edutrack Login</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="CSS/public.css" />
+  <style>
+    body {
+      background-color: #252525;
+      background-image: url('https://i.pinimg.com/736x/bb/2c/ed/bb2ced1b5355b26d963d7e5d07d130bc.jpg');
+      background-repeat: no-repeat; background-position: right center; background-size: 40% auto;
+      display: flex; justify-content: left; padding-left: 16rem; align-items: center; height: 100vh;
+    }
+    .login-section { width: 100%; max-width: 380px; text-align: center; }
+    .form-label { color: #bbb; font-size: 14px; }
+    .form-control { background-color: #141414; border: 1px solid #2a2a2a; color: #fff; border-radius: 6px; padding: 10px; }
+    .link { text-align: center; margin-top: 15px; }
+    .link a { color: #aaa; text-decoration: none; font-size: 13px; transition: color 0.3s;}
+    .link a:hover { color: #fff; }
+    .btn { padding: 8px 14px; border-radius: 6px; background: #3a3a3a; color: #fff; border: none; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <a href="../index.html" style="text-decoration: none;">
+    <div class="login-section">
+      <div class="H-logo">
+        <img src="https://i.pinimg.com/736x/27/d6/ad/27d6ad0843c149d09f5cbf1baf20b631.jpg" alt="logo" />
+        <h2>Edutrack</h2>
+      </div>
+  </a>
+
+  <form id="loginForm">
+    <div class="mb-3">
+      <label for="username" class="form-label">Email</label>
+      <input type="email" class="form-control" id="loginEmail" placeholder="Enter your email" required />
+    </div>
+
+    <div class="mb-3">
+      <label for="password" class="form-label">Password</label>
+      <input type="password" class="form-control" id="loginPassword" placeholder="Enter your password" required />
+    </div>
+
+    <button type="submit" class="btn">Login</button>
+  </form>
+  <p id="loginMessage" class="text-light mt-3"></p>
+  <div class="link">
+    <a href="../index.html">Go Back</a>
+  </div>
+
+  <!-- Module scripts -->
+<!-- Firebase modules -->
+<script type="module" src="../../firebase.js"></script>
+<script type="module" src="JS/public.js"></script>
+
+</body>
+</html>

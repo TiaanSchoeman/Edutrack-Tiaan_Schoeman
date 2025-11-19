@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Edutrack | Uploads</title>
+  <link rel="stylesheet" href="CSS/admin.css" />
+    <script src="https://kit.fontawesome.com/d6e9d7304f.js" crossorigin="anonymous"></script>
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" as="style" onload="this.rel='stylesheet'" />
+    <script type="module">
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+
+onAuthStateChanged(auth, (user) => {
+    if (!user) {
+        window.location.href = "../Public/loginpage.html";
+    }
+});
+</script>
+
+  <style>
+    /* Upload page enhancements */
+    .upload-section {
+      background-color: var(--bg-panel);
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .upload-area {
+      border: 2px dashed var(--border-color);
+      border-radius: 12px;
+      padding: 40px;
+      text-align: center;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: border-color 0.3s, background 0.3s;
+    }
+
+    .upload-area.dragover {
+      border-color: var(--highlight);
+      background-color: rgba(0, 255, 136, 0.05);
+    }
+
+    .progress-container {
+      margin-top: 15px;
+      height: 10px;
+      background: #333;
+      border-radius: 5px;
+      overflow: hidden;
+      display: none;
+    }
+
+    .progress-bar {
+      height: 10px;
+      width: 0%;
+      background: var(--highlight);
+      transition: width 0.3s ease;
+    }
+
+    .upload-message {
+      font-weight: 500;
+      margin-top: 10px;
+      color: var(--text-secondary);
+    }
+
+    .filter-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 25px;
+      margin-bottom: 15px;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .filter-bar input,
+    .filter-bar select {
+      background-color: var(--bg-hover);
+      border: none;
+      color: var(--text-primary);
+      padding: 8px 12px;
+      border-radius: 6px;
+      outline: none;
+    }
+
+    .uploaded-list table {
+      width: 100%;
+      border-collapse: collapse;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .uploaded-list th,
+    .uploaded-list td {
+      border-bottom: 1px solid var(--border-color);
+      padding: 10px 12px;
+      text-align: left;
+    }
+
+    .uploaded-list th {
+      background-color: var(--bg-hover);
+      color: var(--accent);
+    }
+
+    .uploaded-list button {
+      background: none;
+      border: 1px solid var(--border-color);
+      color: var(--accent);
+      padding: 5px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .uploaded-list button:hover {
+      background: var(--bg-hover);
+      color: var(--highlight);
+    }
+  </style>
+</head>
+<body>
+<aside class="sidebar">
+  <div>
+    <div class="logo">
+      <img src="https://i.pinimg.com/736x/27/d6/ad/27d6ad0843c149d09f5cbf1baf20b631.jpg" alt="logo" />
+      <h2>Edutrack</h2>
+    </div>
+    <nav>
+      <a href="dashboard.html" ><i class="fa-solid fa-house"></i> Dashboard</a>
+      <a href="uploadpage.html" class="active"><i class="fa-solid fa-circle-up"></i> Uploads</a>
+      <a href="downloadpage.html"><i class="fa-regular fa-circle-down"></i> Downloads</a>
+      <a href="resourcespage.html"><i class="fa-solid fa-file"></i> Resources</a>
+      <a href="profile.html"><i class="fa-solid fa-user"></i> Profile</a>
+      <a href="../Public/contactpage.html"><i class="fa-solid fa-comment"></i> Contact</a>
+    </nav>
+  </div>
+  <button class="logout-btn" onclick="logoutUser()"><i class="fa-regular fa-circle-xmark"></i> Logout</button>
+</aside>
+
+  <!-- Main content -->
+  <main class="main-content">
+    <header>
+      <h1>Upload Assessments</h1>
+    </header>
+
+    <section class="section upload-section">
+      <p>Drag and drop your assessment files or click to upload below:</p>
+
+      <div class="upload-area" id="uploadArea">
+        <p>📂 Drag & Drop files here or click to select</p>
+        <input type="file" id="fileInput" hidden multiple />
+      </div>
+
+      <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+
+      <p id="uploadMessage" class="upload-message"></p>
+
+      <!-- Filter + Search -->
+      <div class="filter-bar">
+        <input type="text" id="searchInput" placeholder="🔍 Search files..." />
+        <select id="fileCategory">
+          <option value="All">All Categories</option>
+          <option value="Assignment">Assignments</option>
+          <option value="Notes">Notes</option>
+          <option value="Exam">Exams</option>
+        </select>
+      </div>
+
+      <!-- Uploaded Files Table -->
+      <div class="uploaded-list">
+        <table id="uploadedTable">
+          <thead>
+            <tr>
+              <th>File Name</th>
+              <th>Size</th>
+              <th>Category</th>
+              <th>Date Uploaded</th>
+              <th>Uploaded By</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Files dynamically appear here -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <!-- Scripts -->
+  <script src="JS/admin.js"></script>
+  <script type="module" src="../firebase.js"></script>
+</body>
+</html>

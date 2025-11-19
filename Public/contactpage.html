@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edutrack | Contact</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="CSS/public.css" />
+    <script src="https://kit.fontawesome.com/d6e9d7304f.js" crossorigin="anonymous"></script>
+
+    <style>
+        body {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.7)),
+                url('https://i.pinimg.com/736x/d5/eb/f3/d5ebf30e3c3ab2c4d4dfb162b5ff7f07.jpg') center/cover no-repeat;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .contact-container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            width: 400px;
+            padding: 40px 50px;
+            text-align: center;
+        }
+
+        .contact-container h2 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 25px;
+        }
+
+        .input-box {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .input-box input,
+        .input-box textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: none;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.15);
+            color: #fff;
+            font-size: 14px;
+            outline: none;
+            resize: none;
+        }
+
+        .input-box textarea {
+            height: 100px;
+        }
+
+        .input-box input::placeholder,
+        .input-box textarea::placeholder {
+            color: #ddd;
+        }
+
+        .info {
+            font-size: 14px;
+            margin-top: 15px;
+            color: #ccc;
+        }
+
+        @media (max-width: 768px) {
+            .contact-container {
+                width: 90%;
+                padding: 30px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <a href="../index.html">
+        <header>
+            <div class="login-section">
+                <div class="H-logo">
+                    <img src="https://i.pinimg.com/736x/27/d6/ad/27d6ad0843c149d09f5cbf1baf20b631.jpg" alt="logo" />
+                    <h2>Edutrack</h2>
+                </div>
+        </header>
+    </a>
+    <nav>
+        <a href="loginpage.html"><i class="fa-regular fa-user"></i> Login</a>
+        <a href="registerpage.html"><i class="fa-regular fa-hand-pointer"></i> Register</a>
+        <a href="contactpage.html" class="active"><i class="fa-regular fa-message"></i> Contact</a>
+    </nav>
+
+    <div class="contact-container">
+        <h2>Contact Us</h2>
+        <form action="#" method="post">
+            <div class="input-box">
+                <input type="text" name="name" placeholder="Full Name" required />
+            </div>
+            <div class="input-box">
+                <input type="email" name="email" placeholder="Email Address" required />
+            </div>
+            <div class="input-box">
+                <input type="text" name="subject" placeholder="Subject" required />
+            </div>
+            <div class="input-box">
+                <textarea name="message" placeholder="Your Message" required></textarea>
+            </div>
+            <button type="submit" class="btn">Send Message</button>
+        </form>
+        <p class="info">We’ll get back to you within 24 hours.</p>
+    </div>
+    <script type="module" src="JS/firebase.js"></script>
+    <script type="module" src="JS/public.js"></script>
+
+</body>
+
+</html>

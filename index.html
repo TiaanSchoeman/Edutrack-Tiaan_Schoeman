@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edutrack | Landing Page</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="Public/CSS/public.css" />
+
+    <style>
+        body {
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.5)),
+                url('https://i.pinimg.com/736x/68/63/c5/6863c5b1b3a89bd262551c87e126da03.jpg') center/cover no-repeat;
+        }
+
+        .hero {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            height: 100vh;
+        }
+
+        .hero h1 {
+            font-size: 80px;
+            letter-spacing: 10px;
+            margin-bottom: 10px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .hero p {
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="H-logo">
+            <img src="https://i.pinimg.com/736x/27/d6/ad/27d6ad0843c149d09f5cbf1baf20b631.jpg" alt="Edutrack Logo" />
+            <h2>Edutrack</h2>
+        </div>
+    </header>
+
+    <nav>
+        <a href="Public/loginpage.html"><i class="fa-regular fa-user"></i> Login</a>
+        <a href="Public/registerpage.html"><i class="fa-regular fa-hand-pointer"></i> Register</a>
+        <a href="Public/contactpage.html"><i class="fa-regular fa-message"></i> Contact</a>
+    </nav>
+
+    <section class="hero">
+        <h1>Welcome to Edutrack</h1>
+        <p>Your journey to knowledge starts here.</p>
+        <a href="Public/registerpage.html">
+            <button class="btn">Get Started</button>
+        </a>
+    </section>
+    <script src="https://kit.fontawesome.com/d6e9d7304f.js" crossorigin="anonymous"></script>
+<!-- Firebase modules -->
+<script type="module" src="firebase.js"></script>
+<script type="module" src="Public/JS/public.js"></script>
+
+
+
+</body>
+
+</html>

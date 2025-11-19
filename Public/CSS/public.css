@@ -1,0 +1,118 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body,
+html {
+    height: 100%;
+    font-family: 'Poppins', sans-serif;
+    color: #fff;
+    overflow: hidden;
+}
+
+header {
+    position: absolute;
+    top: 20px;
+    left: 40px;
+    font-weight: 600;
+    font-size: 18px;
+    opacity: 0.8;
+}
+
+.H-logo {
+    display: flex;
+    align-items: center;
+}
+
+.H-logo h2 {
+    padding-top: 10px;
+    margin-left: 10px;
+    font-size: 24px;
+    color: #fff;
+}
+
+.H-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.H-logo img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+.H-logo h2 {
+    padding-left: 20px;
+    padding-top: 20px;
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 25px;
+}
+
+nav {
+    position: absolute;
+    top: 20px;
+    right: 40px;
+}
+
+nav a {
+    margin-left: 25px;
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 300;
+    transition: 0.3s;
+}
+
+nav a:hover {
+    color: #fff;
+}
+
+#loginLink {
+    color: #fff;
+    font-weight: 500;
+    padding: 0;
+}
+
+textarea {
+    height: 100px;
+}
+
+input::placeholder {
+    color: #ddd !important;
+}
+
+button,
+.btn {
+    display: inline-block;
+    width: 100%;
+    max-width: 100%;
+    background: #4b4b4b;
+    border: none;
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    letter-spacing: 1px;
+    transition: background 0.3s, transform 0.2s;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+button:hover,
+.btn:hover {
+    background: #cccccc;
+}
+
+button:focus,
+.btn:focus {
+    outline: none;
+    transform: scale(0.98);
+}
