@@ -6,7 +6,6 @@
   <title>Edutrack | Dashboard</title>
   <link rel="stylesheet" href="CSS/admin.css" />
   <script src="https://kit.fontawesome.com/d6e9d7304f.js" crossorigin="anonymous"></script>
-  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" as="style" onload="this.rel='stylesheet'" />
 </head>
 <body>
 <aside class="sidebar">
@@ -76,28 +75,30 @@
   </section>
 
   <!-- Charts Section -->
-  <section class="section chart-section">
-    <h2 class="section-heading"><i class="fa-regular fa-chart-bar"></i> Student Performance</h2>
+  <!-- Charts Section -->
+<section class="section chart-section">
+  <h2 class="section-heading"><i class="fa-regular fa-chart-bar"></i> Student Performance</h2>
 
-    <!-- Row 1: Attendance -->
-    <div class="cards-wrapper chart-row">
-      <div class="chart-container full-width">
-        <h3>Attendance Over Time</h3>
-        <canvas id="attendanceChart"></canvas>
-      </div>
+  <!-- Row 1: Two line charts side-by-side -->
+  <div class="cards-wrapper chart-row line-charts">
+    <div class="chart-container">
+      <h3>Attendance Over Time</h3>
+      <canvas id="attendanceChart"></canvas>
     </div>
+    <div class="chart-container">
+      <h3>Grades Over Time</h3>
+      <canvas id="gradesChart"></canvas>
+    </div>
+  </div>
 
-    <!-- Row 2: Grades + Assignment Pie -->
-    <div class="cards-wrapper chart-row">
-      <div class="chart-container half-width">
-        <h3>Grades Over Time</h3>
-        <canvas id="gradesChart"></canvas>
-      </div>
-      <div class="chart-container half-width">
-        <h3>Assignments Status</h3>
-        <canvas id="pieChart"></canvas>
-      </div>
+  <!-- Row 2: Pie chart full width -->
+  <div class="cards-wrapper chart-row pie-full">
+    <div class="chart-container pie-chart">
+      <h3>Assignments Status</h3>
+      <canvas id="pieChart"></canvas>
     </div>
+  </div>
+</section>
 
   </section>
 </main>
