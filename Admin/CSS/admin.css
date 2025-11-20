@@ -80,7 +80,6 @@ body {
 #topStudentName {
   color: var(--text-primary);
   font-weight: 600;
-  margin-bottom: 20px;
   font-size: 1.1rem;
 }
 

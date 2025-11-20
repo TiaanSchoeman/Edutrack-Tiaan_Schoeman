@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Edutrack | Resources</title>
   <link rel="stylesheet" href="CSS/admin.css" />
-
 </head>
 
 <body>
@@ -39,15 +38,15 @@
     <div class="download-container featured-resources">
       <div class="download-card">
         <div><i class="fa-solid fa-laptop-code"></i> Web Development Guide</div>
-        <a href="#" class="btn"><i class="fa-solid fa-download"></i> Download</a>
+        <a href="resources/web-development-guide.pdf" download class="btn"><i class="fa-solid fa-download"></i> Download</a>
       </div>
       <div class="download-card">
         <div><i class="fa-solid fa-database"></i> Database System Notes</div>
-        <a href="#" class="btn"><i class="fa-solid fa-download"></i> Download</a>
+        <a href="resources/database-system-notes.pdf" download class="btn"><i class="fa-solid fa-download"></i> Download</a>
       </div>
       <div class="download-card">
         <div><i class="fa-solid fa-file-lines"></i> Software Engineering Template</div>
-        <a href="#" class="btn"><i class="fa-solid fa-download"></i> Download</a>
+        <a href="resources/software-engineering-template.docx" download class="btn"><i class="fa-solid fa-download"></i> Download</a>
       </div>
     </div>
   </section>
@@ -55,20 +54,18 @@
   <section class="section">
     <h2 class="section-heading">All Resources</h2>
     <ul class="notice-board" id="resourceList">
-      <li><i class="fa-solid fa-laptop-code"></i> Web Development Guide – <a href="#"><i class="fa-solid fa-download"></i> Download</a></li>
-      <li><i class="fa-solid fa-database"></i> Database System Notes – <a href="#"><i class="fa-solid fa-download"></i> Download</a></li>
-      <li><i class="fa-solid fa-file-lines"></i> Software Engineering Template – <a href="#"><i class="fa-solid fa-download"></i> Download</a></li>
-      <li><i class="fa-brands fa-html5"></i> HTML & CSS Cheatsheet – <a href="#"><i class="fa-solid fa-download"></i> Download</a></li>
-      <li><i class="fa-brands fa-js-square"></i> JavaScript Guide – <a href="#"><i class="fa-solid fa-download"></i> Download</a></li>
-      <li><i class="fa-brands fa-python"></i> Python Notes – <a href="#"><i class="fa-solid fa-download"></i> Download</a></li>
+      <li><i class="fa-solid fa-laptop-code"></i> Web Development Guide – <a href="resources/web-development-guide.pdf" download><i class="fa-solid fa-download"></i> Download</a></li>
+      <li><i class="fa-solid fa-database"></i> Database System Notes – <a href="resources/database-system-notes.pdf" download><i class="fa-solid fa-download"></i> Download</a></li>
+      <li><i class="fa-solid fa-file-lines"></i> Software Engineering Template – <a href="resources/software-engineering-template.docx" download><i class="fa-solid fa-download"></i> Download</a></li>
+      <li><i class="fa-brands fa-html5"></i> HTML & CSS Cheatsheet – <a href="resources/html-css-cheatsheet.pdf" download><i class="fa-solid fa-download"></i> Download</a></li>
+      <li><i class="fa-brands fa-js-square"></i> JavaScript Guide – <a href="resources/javascript-guide.pdf" download><i class="fa-solid fa-download"></i> Download</a></li>
+      <li><i class="fa-brands fa-python"></i> Python Notes – <a href="resources/python-notes.pdf" download><i class="fa-solid fa-download"></i> Download</a></li>
     </ul>
   </section>
 </main>
-<script src="https://kit.fontawesome.com/d6e9d7304f.js" crossorigin="anonymous"></script>
-<!-- Firebase must load FIRST -->
-<script type="module" src="../firebase.js"></script>
 
-<!-- Admin logic must also be a module -->
+<script src="https://kit.fontawesome.com/d6e9d7304f.js" crossorigin="anonymous"></script>
+<script type="module" src="../firebase.js"></script>
 <script type="module" src="JS/admin.js"></script>
 
 <script>
@@ -82,7 +79,8 @@ function filterResources() {
   }
 }
 </script>
-  <script type="module">
+
+<script type="module">
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
 
 onAuthStateChanged(auth, (user) => {

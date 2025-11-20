@@ -31,53 +31,37 @@
   <header>
     <h1>Download Assessments</h1>
     <div class="download-search">
-      <input type="text" id="searchInput" placeholder="Search downloads..." onkeyup="filterDownloads()">
+      <input type="text" id="downloadSearch" placeholder="Search downloads...">
     </div>
   </header>
 
+  <!-- Sample Static Download Files -->
   <section class="download-section">
-    <h2>Web Development</h2>
-    <div class="download-container" id="webDevDownloads">
-      <div class="download-card"><span>📄 Web Dev Project</span><a href="#" class="btn">Download</a></div>
-      <div class="download-card"><span>📄 Web Dev Quiz</span><a href="#" class="btn">Download</a></div>
+    <h2>Files</h2>
+    <div class="download-container">
+      <div class="download-card">
+        <span>📄 Sample Assignment 1</span>
+        <a class="btn" href="samples/sample-assignment1.pdf" download>Download</a>
+      </div>
+      <div class="download-card">
+        <span>📄 Sample Notes</span>
+        <a class="btn" href="samples/sample-notes.txt" download>Download</a>
+      </div>
+      <div class="download-card">
+        <span>📄 Sample Project</span>
+        <a class="btn" href="samples/sample-project.zip" download>Download</a>
+      </div>
     </div>
   </section>
 
-  <section class="download-section">
-    <h2>Database Systems</h2>
-    <div class="download-container" id="dbDownloads">
-      <div class="download-card"><span>📄 Database Quiz Answers</span><a href="#" class="btn">Download</a></div>
-      <div class="download-card"><span>📄 Final Project</span><a href="#" class="btn">Download</a></div>
-    </div>
-  </section>
-
-  <section class="download-section">
-    <h2>Software Engineering</h2>
-    <div class="download-container" id="seDownloads">
-      <div class="download-card"><span>📄 Software Engineering Report</span><a href="#" class="btn">Download</a></div>
-    </div>
-  </section>
-
-  <section class="download-section">
-    <h2>Networking</h2>
-    <div class="download-container" id="netDownloads">
-      <div class="download-card"><span>📄 Networking Quiz 4</span><a href="#" class="btn">Download</a></div>
-    </div>
+  <!-- Dynamic Uploaded Files -->
+  <section class="download-section" id="downloadsContainer">
+    <!-- Dynamic uploaded files from IndexedDB will appear here -->
   </section>
 </main>
+
 <script type="module" src="../firebase.js"></script>
 <script type="module" src="JS/admin.js"></script>
-<script>
-function filterDownloads() {
-  const input = document.getElementById("searchInput").value.toLowerCase();
-  const containers = document.querySelectorAll(".download-container");
-  containers.forEach(container => {
-    Array.from(container.children).forEach(card => {
-      const text = card.querySelector("span").textContent.toLowerCase();
-      card.style.display = text.includes(input) ? "flex" : "none";
-    });
-  });
-}
-</script>
+
 </body>
 </html>

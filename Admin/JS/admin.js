@@ -1,8 +1,5 @@
-// JS/admin.js
-// Make sure this file is loaded with: <script type="module" src="JS/admin.js"></script>
-
-// ------------------ Firebase imports ------------------
-import { app, auth, db } from "../../firebase.js"; // adjust path if needed
+// ------------------ Firebase imports (keep for auth & user data) ------------------
+import { app, auth, db } from "../../firebase.js";
 
 import {
   onAuthStateChanged,
@@ -15,21 +12,8 @@ import {
   getDoc,
   updateDoc,
   collection,
-  addDoc,
   serverTimestamp,
-  onSnapshot,
-  query,
-  orderBy,
-  deleteDoc
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-import {
-  getStorage,
-  ref as storageRefFunc,
-  uploadBytesResumable,
-  getDownloadURL,
-  deleteObject
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 
 import { Chart } from "https://esm.sh/chart.js@4.4.4/auto";
 
@@ -49,7 +33,7 @@ window.logoutUser = async function () {
 let currentUserData = {};
 let firebaseUser = null;
 
-// ------------------ DOM Elements (defensive) ------------------
+// ------------------ DOM Elements ------------------
 const fullnameEl = document.getElementById("fullname");
 const emailEl = document.getElementById("email");
 const phoneEl = document.getElementById("phone");
@@ -68,7 +52,6 @@ const editBtn = document.querySelector(".edit-btn");
 const saveBtn = document.querySelector(".save-btn");
 const cancelBtn = document.querySelector(".cancel-btn");
 
-// Chart elements (may be absent on some pages)
 const attendanceChartEl = document.getElementById("attendanceChart");
 const gradesChartEl = document.getElementById("gradesChart");
 const pieChartEl = document.getElementById("pieChart");
@@ -76,12 +59,7 @@ const pieChartEl = document.getElementById("pieChart");
 // ------------------ Auth state & load user data ------------------
 onAuthStateChanged(auth, async (user) => {
   if (!user) {
-    // not signed in -> redirect to login (only if on protected page)
-    try {
-      window.location.href = "../Public/loginpage.html";
-    } catch (e) {
-      console.warn("Redirect failed:", e);
-    }
+    window.location.href = "../Public/loginpage.html";
     return;
   }
 
@@ -112,11 +90,10 @@ onAuthStateChanged(auth, async (user) => {
     console.error("Error loading user data:", err);
   }
 
-  // load charts if present
   loadCharts();
 });
 
-// ------------------ Profile edit functions ------------------
+// ------------------ Profile edit ------------------
 function enterEditMode() {
   if (profileView && profileEdit) {
     profileView.style.display = "none";
@@ -139,12 +116,7 @@ async function saveProfile() {
     const newPhone = (editPhone?.value || "").trim();
 
     const userRef = doc(db, "users", firebaseUser.uid);
-
-    await updateDoc(userRef, {
-      name: newName,
-      email: newEmail,
-      phone: newPhone
-    });
+    await updateDoc(userRef, { name: newName, email: newEmail, phone: newPhone });
 
     if (newEmail && firebaseUser.email && newEmail !== firebaseUser.email) {
       await updateEmail(firebaseUser, newEmail);
@@ -158,7 +130,6 @@ async function saveProfile() {
   }
 }
 
-// ------------------ Event listeners for profile edit ------------------
 document.addEventListener("DOMContentLoaded", () => {
   if (editBtn) editBtn.addEventListener("click", enterEditMode);
   if (saveBtn) saveBtn.addEventListener("click", saveProfile);
@@ -171,16 +142,7 @@ function loadCharts() {
     if (attendanceChartEl) {
       new Chart(attendanceChartEl, {
         type: "line",
-        data: {
-          labels: ["Week 1", "Week 2", "Week 3", "Week 4"],
-          datasets: [{
-            label: "Attendance",
-            data: [90, 85, 95, 92],
-            borderColor: "rgba(75,192,192,1)",
-            fill: false,
-            tension: 0.3
-          }]
-        },
+        data: { labels: ["Week 1", "Week 2", "Week 3", "Week 4"], datasets: [{ label: "Attendance", data: [90, 85, 95, 92], borderColor: "rgba(75,192,192,1)", fill: false, tension: 0.3 }] },
         options: { responsive: true }
       });
     }
@@ -188,16 +150,7 @@ function loadCharts() {
     if (gradesChartEl) {
       new Chart(gradesChartEl, {
         type: "line",
-        data: {
-          labels: ["Week 1", "Week 2", "Week 3", "Week 4"],
-          datasets: [{
-            label: "Grades",
-            data: [78, 82, 88, 91],
-            borderColor: "rgba(255,99,132,1)",
-            fill: false,
-            tension: 0.3
-          }]
-        },
+        data: { labels: ["Week 1", "Week 2", "Week 3", "Week 4"], datasets: [{ label: "Grades", data: [78, 82, 88, 91], borderColor: "rgba(255,99,132,1)", fill: false, tension: 0.3 }] },
         options: { responsive: true }
       });
     }
@@ -205,22 +158,33 @@ function loadCharts() {
     if (pieChartEl) {
       new Chart(pieChartEl, {
         type: "pie",
-        data: {
-          labels: ["Completed", "Pending", "Overdue"],
-          datasets: [{ data: [12, 5, 3] }]
-        },
+        data: { labels: ["Completed", "Pending", "Overdue"], datasets: [{ data: [12, 5, 3], backgroundColor: ["#4caf50","#ff9800","#f44336"] }] },
         options: { responsive: true }
       });
     }
-  } catch (err) {
-    console.error("Error initializing charts:", err);
-  }
+  } catch (err) { console.error("Error initializing charts:", err); }
 }
 
-// ------------------ Storage setup ------------------
-const storage = getStorage(app);
+// ------------------ LOCAL UPLOADS USING INDEXEDDB ------------------
+let dbLocal;
+const request = indexedDB.open("EdutrackUploads", 1);
 
-// ------------------ Upload DOM elements ------------------
+request.onerror = e => console.error("IndexedDB error:", e);
+request.onsuccess = e => { 
+  dbLocal = e.target.result; 
+  loadFiles();       
+  initDownloads();   
+};
+request.onupgradeneeded = e => {
+  dbLocal = e.target.result;
+  if (!dbLocal.objectStoreNames.contains("uploads")) {
+    const store = dbLocal.createObjectStore("uploads", { keyPath: "id", autoIncrement: true });
+    store.createIndex("fileName", "fileName", { unique: false });
+    store.createIndex("category", "category", { unique: false });
+  }
+};
+
+// Upload DOM
 const uploadArea = document.getElementById("uploadArea");
 const fileInput = document.getElementById("fileInput");
 const progressBar = document.getElementById("progressBar");
@@ -230,166 +194,174 @@ const searchInput = document.getElementById("searchInput");
 const categoryFilter = document.getElementById("fileCategory");
 const tableBody = document.querySelector("#uploadedTable tbody");
 
-// Defensive helpers
-const safeAdd = (el, evt, fn) => { if (el) el.addEventListener(evt, fn); };
-
-// Click to open file picker
-safeAdd(uploadArea, "click", () => fileInput && fileInput.click());
-
-// Drag & drop handlers
-safeAdd(uploadArea, "dragover", (e) => { e.preventDefault(); uploadArea.classList?.add("dragover"); });
-safeAdd(uploadArea, "dragleave", () => uploadArea.classList?.remove("dragover"));
-safeAdd(uploadArea, "drop", (e) => {
-  e.preventDefault();
-  uploadArea.classList?.remove("dragover");
-  handleFiles(e.dataTransfer?.files);
-});
-
-// Standard selection
-safeAdd(fileInput, "change", (e) => handleFiles(e.target.files));
+// Event Listeners
+uploadArea?.addEventListener("click", () => fileInput.click());
+uploadArea?.addEventListener("dragover", e => { e.preventDefault(); uploadArea.classList.add("dragover"); });
+uploadArea?.addEventListener("dragleave", () => uploadArea.classList.remove("dragover"));
+uploadArea?.addEventListener("drop", e => { e.preventDefault(); uploadArea.classList.remove("dragover"); handleFiles(e.dataTransfer.files); });
+fileInput?.addEventListener("change", e => handleFiles(e.target.files));
+searchInput?.addEventListener("input", applyFilters);
+categoryFilter?.addEventListener("change", applyFilters);
 
 function handleFiles(files) {
   if (!files || files.length === 0) return;
-  [...files].forEach(f => uploadFile(f));
+  [...files].forEach(file => saveFile(file));
 }
 
-// ------------------ Upload file to Storage and save metadata to Firestore ------------------
-async function uploadFile(file) {
-  try {
-    const user = auth.currentUser;
-    if (!user) return alert("You must be logged in to upload.");
+function saveFile(file) {
+  const category = categoryFilter?.value !== "All" ? categoryFilter.value : "Unsorted";
 
-    const chosenCategory = (categoryFilter?.value && categoryFilter.value !== "All") ? categoryFilter.value : "Unsorted";
+  const reader = new FileReader();
+  reader.onload = () => {
+    const fileData = { fileName: file.name, size: file.size, category, data: reader.result, timestamp: new Date() };
+    const tx = dbLocal.transaction("uploads", "readwrite");
+    const store = tx.objectStore("uploads");
+    store.add(fileData);
 
-    const path = `uploads/${user.uid}/${Date.now()}-${file.name}`;
-    const sRef = storageRefFunc(storage, path);
+    tx.oncomplete = () => { 
+      uploadMessage.textContent = "Upload complete!"; 
+      progressBar.style.width = "0%"; 
+      fileInput.value = ""; 
+      loadFiles();       
+      initDownloads();   
+    };
+    tx.onerror = e => { console.error("Error saving file:", e); uploadMessage.textContent = "Upload failed!"; };
+  };
 
-    const task = uploadBytesResumable(sRef, file);
-
-    if (progressContainer) progressContainer.style.display = "block";
-
-    task.on("state_changed",
-      (snapshot) => {
-        const pct = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        if (progressBar) progressBar.style.width = pct + "%";
-      },
-      (err) => {
-        console.error("Upload error:", err);
-        if (uploadMessage) uploadMessage.textContent = "Upload failed: " + err.message;
-      },
-      async () => {
-        try {
-          const downloadURL = await getDownloadURL(task.snapshot.ref);
-
-          await addDoc(collection(db, "uploads"), {
-            fileName: file.name,
-            size: file.size,
-            category: chosenCategory,
-            downloadURL,
-            storagePath: path,
-            uid: user.uid,
-            uploaderName: user.displayName || user.email || user.uid,
-            timestamp: serverTimestamp()
-          });
-
-          if (uploadMessage) uploadMessage.textContent = "Upload complete!";
-          if (progressBar) progressBar.style.width = "0%";
-          if (fileInput) fileInput.value = "";
-        } catch (err2) {
-          console.error("Post-upload error:", err2);
-          if (uploadMessage) uploadMessage.textContent = "Upload succeeded but saving metadata failed: " + err2.message;
-        }
-      }
-    );
-  } catch (err) {
-    console.error("uploadFile error:", err);
-    alert("Upload error: " + err.message);
-  }
+  progressContainer.style.display = "block";
+  let pct = 0;
+  const interval = setInterval(() => { 
+    pct += 10; 
+    if (pct > 100) pct = 100; 
+    progressBar.style.width = pct + "%"; 
+    if (pct === 100) clearInterval(interval); 
+  }, 50);
+  reader.readAsArrayBuffer(file);
 }
 
-// ------------------ Real-time listener for uploads collection ------------------
-const uploadsQuery = query(collection(db, "uploads"), orderBy("timestamp", "desc"));
+function loadFiles() {
+  if (!dbLocal || !tableBody) return;
+  const tx = dbLocal.transaction("uploads", "readonly");
+  const store = tx.objectStore("uploads");
+  const request = store.getAll();
+  request.onsuccess = () => { 
+    tableBody.innerHTML = ""; 
+    request.result.forEach(file => addFileToTable(file)); 
+    applyFilters(); 
+  };
+}
 
-onSnapshot(uploadsQuery, (snap) => {
-  if (!tableBody) return;
-  tableBody.innerHTML = "";
-  snap.forEach(docSnap => {
-    addFileToTable(docSnap.id, docSnap.data());
-  });
-  applyFilters(); // keep current filters applied
-}, (err) => {
-  console.error("Realtime listener error:", err);
-});
-
-// ------------------ Table row creation ------------------
-function addFileToTable(id, data) {
-  if (!tableBody) return;
-
+function addFileToTable(file) {
   const tr = document.createElement("tr");
-
-  const dateText = (data.timestamp && data.timestamp.toDate) ? data.timestamp.toDate().toLocaleString() : "Pending";
-
-  // Escape minimal to avoid breaking the table
-  const safeName = String(data.fileName || "").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-  const safeCategory = String(data.category || "Unsorted").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-  const safeUploader = String(data.uploaderName || "Unknown").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-
   tr.innerHTML = `
-    <td>${safeName}</td>
-    <td>${data.size ? (data.size / 1024).toFixed(1) + " KB" : "-"}</td>
-    <td>${safeCategory}</td>
-    <td>${dateText}</td>
-    <td>${safeUploader}</td>
+    <td>${file.fileName}</td>
+    <td>${(file.size/1024).toFixed(1)} KB</td>
+    <td>${file.category}</td>
+    <td>${file.timestamp.toLocaleString()}</td>
+    <td>Local User</td>
     <td>
       <button class="download-btn">Download</button>
       <button class="delete-btn">Delete</button>
     </td>
   `;
 
-  // Attach handlers
-  const dlBtn = tr.querySelector(".download-btn");
-  dlBtn?.addEventListener("click", () => {
-    if (data.downloadURL) window.open(data.downloadURL, "_blank");
-    else alert("Download URL not ready.");
+  tr.querySelector(".download-btn")?.addEventListener("click", () => {
+    const blob = new Blob([file.data]);
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url; a.download = file.fileName; a.click(); URL.revokeObjectURL(url);
   });
 
-  const delBtn = tr.querySelector(".delete-btn");
-  delBtn?.addEventListener("click", async () => {
-    if (!confirm("Are you sure you want to delete this file?")) return;
-    try {
-      await deleteDoc(doc(db, "uploads", id));
-      // delete from storage
-      const fileRef = storageRefFunc(storage, data.storagePath);
-      await deleteObject(fileRef);
-      // Firestore onSnapshot will remove row automatically
-    } catch (err) {
-      console.error("Delete error:", err);
-      alert("Could not delete file: " + err.message);
-    }
+  tr.querySelector(".delete-btn")?.addEventListener("click", () => {
+    if (!confirm("Delete this file?")) return;
+    const tx = dbLocal.transaction("uploads", "readwrite");
+    tx.objectStore("uploads").delete(file.id);
+    tx.oncomplete = () => { loadFiles(); initDownloads(); };
   });
 
   tableBody.appendChild(tr);
 }
 
-// ------------------ Filters (search + category) ------------------
-safeAdd(searchInput, "input", applyFilters);
-safeAdd(categoryFilter, "change", applyFilters);
-
 function applyFilters() {
-  if (!tableBody) return;
   const q = (searchInput?.value || "").toLowerCase();
   const cat = categoryFilter?.value || "All";
 
   [...tableBody.children].forEach(row => {
-    const name = (row.children[0]?.textContent || "").toLowerCase();
-    const category = row.children[2]?.textContent || "";
-    const matchName = name.includes(q);
-    const matchCategory = (cat === "All") || (category === cat);
-    row.style.display = (matchName && matchCategory) ? "" : "none";
+    const name = (row.children[0].textContent || "").toLowerCase();
+    const category = row.children[2].textContent;
+    row.style.display = (name.includes(q) && (cat === "All" || category === cat)) ? "" : "none";
   });
 }
 
-// ------------------ Debug: show auth changes in console ------------------
-onAuthStateChanged(auth, (u) => {
-  console.log("Auth change:", u ? (u.email || u.uid) : null);
+// ------------------ DOWNLOAD PAGE LOGIC ------------------
+const downloadSearch = document.getElementById("downloadSearch");
+const downloadsContainer = document.getElementById("downloadsContainer");
+
+function initDownloads() {
+  if (!dbLocal || !downloadsContainer) return;
+
+  const tx = dbLocal.transaction("uploads", "readonly");
+  const store = tx.objectStore("uploads");
+  const request = store.getAll();
+
+  request.onsuccess = () => {
+    downloadsContainer.innerHTML = "";
+
+    const categories = {};
+    request.result.forEach(file => {
+      const cat = file.category || "Unsorted";
+      if (!categories[cat]) categories[cat] = [];
+      categories[cat].push(file);
+    });
+
+    for (const cat in categories) {
+      const section = document.createElement("section");
+      section.className = "download-section";
+
+      const h2 = document.createElement("h2");
+      h2.textContent = cat;
+      section.appendChild(h2);
+
+      const container = document.createElement("div");
+      container.className = "download-container";
+
+      categories[cat].forEach(file => {
+        const card = document.createElement("div");
+        card.className = "download-card";
+
+        const span = document.createElement("span");
+        span.textContent = "📄 " + file.fileName;
+
+        const a = document.createElement("a");
+        a.className = "btn";
+        a.textContent = "Download";
+        a.href = "#";
+        a.addEventListener("click", () => {
+          const blob = new Blob([file.data]);
+          const url = URL.createObjectURL(blob);
+          const tmp = document.createElement("a");
+          tmp.href = url;
+          tmp.download = file.fileName;
+          tmp.click();
+          URL.revokeObjectURL(url);
+        });
+
+        card.appendChild(span);
+        card.appendChild(a);
+        container.appendChild(card);
+      });
+
+      section.appendChild(container);
+      downloadsContainer.appendChild(section);
+    }
+  };
+}
+
+downloadSearch?.addEventListener("input", () => {
+  const query = downloadSearch.value.toLowerCase();
+  const allCards = downloadsContainer.querySelectorAll(".download-card");
+  allCards.forEach(card => {
+    const text = card.querySelector("span").textContent.toLowerCase();
+    card.style.display = text.includes(query) ? "flex" : "none";
+  });
 });
