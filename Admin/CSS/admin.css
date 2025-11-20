@@ -1,8 +1,8 @@
 :root {
-  --bg-main: #0d0d0d;           /* Deeper black */
-  --bg-panel: #1a1a1a;          /* Slightly lighter panels */
+  --bg-main: #0d0d0d;         
+  --bg-panel: #1a1a1a; 
   --bg-hover: #252525;
-  --accent: #e2e2e2;            /* Rich gold instead of peach (more premium) */
+  --accent: #e2e2e2;    
   --text-primary: #f0f0f0;
   --text-secondary: #aaaaaa;
   --border-color: rgba(255,255,255,0.1);

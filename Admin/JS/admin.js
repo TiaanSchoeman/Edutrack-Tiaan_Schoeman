@@ -8,16 +8,14 @@ import { Chart } from 'https://esm.sh/chart.js@4.4.4/auto';
 window.logoutUser = async function () {
   try {
     await signOut(auth);
-    window.location.href = "../Public/loginpage.html";
+    window.location.href = "/Public/loginpage.html"; 
   } catch (err) {
     alert("Error logging out: " + err.message);
   }
 };
-
 // ==================== Globals ====================
 let currentUserData = {};
 let firebaseUser = null;
-
 // ==================== DOM Elements ====================
 const fullnameEl = document.getElementById("fullname");
 const emailEl = document.getElementById("email");
@@ -126,7 +124,6 @@ document.addEventListener("DOMContentLoaded", () => {
   if (cancelBtn) cancelBtn.addEventListener("click", cancelEditMode);
 });
 
-// ==================== Charts ====================
 // ==================== Charts ====================
 function loadCharts() {
   if (attendanceChartEl) {
