@@ -65,13 +65,9 @@
     </div>
   </section>
 </main>
-
+<script type="module" src="../firebase.js"></script>
+<script type="module" src="JS/admin.js"></script>
 <script>
-function logoutUser(){ 
-  localStorage.removeItem("loggedInUser"); 
-  window.location.href="../Public/loginpage.html"; 
-}
-
 function filterDownloads() {
   const input = document.getElementById("searchInput").value.toLowerCase();
   const containers = document.querySelectorAll(".download-container");

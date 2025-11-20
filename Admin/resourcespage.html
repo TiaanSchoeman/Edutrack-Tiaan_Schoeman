@@ -65,8 +65,12 @@
   </section>
 </main>
 <script src="https://kit.fontawesome.com/d6e9d7304f.js" crossorigin="anonymous"></script>
-<script src="JS/admin.js"></script>
-  <script src="JS/firebase.js"></script>
+<!-- Firebase must load FIRST -->
+<script type="module" src="../firebase.js"></script>
+
+<!-- Admin logic must also be a module -->
+<script type="module" src="JS/admin.js"></script>
+
 <script>
 function filterResources() {
   const input = document.getElementById('resourceSearch').value.toLowerCase();
