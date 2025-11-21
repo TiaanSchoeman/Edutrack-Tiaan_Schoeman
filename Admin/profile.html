@@ -6,7 +6,24 @@
 <title>Edutrack | Profile</title>
 <link rel="stylesheet" href="CSS/admin.css" />
 <script src="https://kit.fontawesome.com/d6e9d7304f.js" crossorigin="anonymous"></script>
+<style>
+  /* Make both cards full width */
+.student-card, .profile-wrapper {
+  width: 100% !important;   /* force full width */
+  max-width: none !important;
+  margin-bottom: 30px;
+  box-sizing: border-box;
+}
 
+/* Optional: center content inside */
+.profile-container {
+  width: 100% !important;
+  max-width: none !important;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+</style>
 </head>
 <body>
 
@@ -41,6 +58,27 @@
   </div>
 </header>
 
+<!-- Dummy Student Card -->
+<section class="section">
+  <div class="student-card" id="studentCard">
+    <div class="card-header">
+      <img src="https://i.pinimg.com/736x/27/d6/ad/27d6ad0843c149d09f5cbf1baf20b631.jpg" alt="Student Photo" id="cardPhoto">
+      <div class="student-info">
+        <h3 id="cardFullname">Loading...</h3>
+        <p>Username: <span id="cardUsername">Loading...</span></p>
+        <p>Course: <span id="cardCourse">Loading...</span></p>
+      </div>
+    </div>
+    <div class="card-details">
+      <p>Email: <span id="cardEmail">Loading...</span></p>
+      <p>Phone: <span id="cardPhone">Loading...</span></p>
+      <p>Student ID: <span id="cardID">Loading...</span></p>
+      <p>Issued: <span id="cardIssued">Loading...</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- Profile Section -->
 <section class="section">
   <div class="profile-wrapper">
     <div class="profile-container">
@@ -60,21 +98,16 @@
       <div id="profileEdit" class="profile-form" style="display:none;">
         <label>Full Name:</label>
         <input type="text" id="editFullname">
-
         <label>Email:</label>
         <input type="email" id="editEmail">
-
         <label>Phone Number:</label>
         <input type="text" id="editPhone">
-
         <button class="save-btn" onclick="saveProfile()">Save Changes</button>
         <button class="cancel-btn" onclick="cancelEditMode()">Cancel</button>
       </div>
-
     </div>
   </div>
 </section>
-
 </main>
 <script type="module" src="../firebase.js"></script>
 <script type="module" src="JS/admin.js"></script>

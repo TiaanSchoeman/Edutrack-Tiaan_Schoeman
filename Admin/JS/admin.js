@@ -136,6 +136,47 @@ document.addEventListener("DOMContentLoaded", () => {
   if (cancelBtn) cancelBtn.addEventListener("click", cancelEditMode);
 });
 
+// --- DUMMY STUDENT CARD FIX ---
+onAuthStateChanged(auth, async (user) => {
+  if (!user) return;
+
+  try {
+    const userRef = doc(db, "users", user.uid);
+    const snap = await getDoc(userRef);
+    const currentUserData = snap.exists() ? snap.data() : {};
+
+    const displayName = currentUserData.name || user.displayName || "Student";
+    const displayEmail = currentUserData.email || user.email || "N/A";
+    const displayPhone = currentUserData.phone || "N/A";
+    const displayUsername = currentUserData.username || (displayEmail.includes("@") ? displayEmail.split("@")[0] : "user");
+    const displayCourse = currentUserData.course || "N/A";
+    const displayID = currentUserData.studentID || "2025-001";
+    const displayPhoto = currentUserData.photoURL || 'https://i.pinimg.com/736x/27/d6/ad/27d6ad0843c149d09f5cbf1baf20b631.jpg';
+
+    // --- Dummy student card elements ---
+    const cardPhoto = document.getElementById("cardPhoto");
+    const cardFullname = document.getElementById("cardFullname");
+    const cardUsername = document.getElementById("cardUsername");
+    const cardCourse = document.getElementById("cardCourse");
+    const cardEmail = document.getElementById("cardEmail");
+    const cardPhone = document.getElementById("cardPhone");
+    const cardID = document.getElementById("cardID");
+    const cardIssued = document.getElementById("cardIssued");
+
+    if (cardPhoto) cardPhoto.src = displayPhoto;
+    if (cardFullname) cardFullname.textContent = displayName;
+    if (cardUsername) cardUsername.textContent = displayUsername;
+    if (cardCourse) cardCourse.textContent = displayCourse;
+    if (cardEmail) cardEmail.textContent = displayEmail;
+    if (cardPhone) cardPhone.textContent = displayPhone;
+    if (cardID) cardID.textContent = displayID;
+    if (cardIssued) cardIssued.textContent = new Date().toLocaleDateString();
+
+  } catch (err) {
+    console.error("Error loading dummy card data:", err);
+  }
+});
+
 // ------------------ Charts ------------------
 function loadCharts() {
   try {
@@ -184,7 +225,7 @@ request.onupgradeneeded = e => {
   }
 };
 
-// Upload DOM
+// --- DOM Elements ---
 const uploadArea = document.getElementById("uploadArea");
 const fileInput = document.getElementById("fileInput");
 const progressBar = document.getElementById("progressBar");
@@ -194,94 +235,138 @@ const searchInput = document.getElementById("searchInput");
 const categoryFilter = document.getElementById("fileCategory");
 const tableBody = document.querySelector("#uploadedTable tbody");
 
-// Event Listeners
+// --- Event Listeners ---
 uploadArea?.addEventListener("click", () => fileInput.click());
 uploadArea?.addEventListener("dragover", e => { e.preventDefault(); uploadArea.classList.add("dragover"); });
 uploadArea?.addEventListener("dragleave", () => uploadArea.classList.remove("dragover"));
-uploadArea?.addEventListener("drop", e => { e.preventDefault(); uploadArea.classList.remove("dragover"); handleFiles(e.dataTransfer.files); });
+uploadArea?.addEventListener("drop", e => { 
+  e.preventDefault(); 
+  uploadArea.classList.remove("dragover"); 
+  handleFiles(e.dataTransfer.files); 
+});
 fileInput?.addEventListener("change", e => handleFiles(e.target.files));
 searchInput?.addEventListener("input", applyFilters);
 categoryFilter?.addEventListener("change", applyFilters);
 
+// --- Handle multiple files ---
 function handleFiles(files) {
   if (!files || files.length === 0) return;
   [...files].forEach(file => saveFile(file));
 }
 
+// --- Save a file to IndexedDB with real progress ---
 function saveFile(file) {
-  const category = categoryFilter?.value !== "All" ? categoryFilter.value : "Unsorted";
+  const category = categoryFilter?.value && categoryFilter.value !== "All" ? categoryFilter.value : "Unsorted";
 
   const reader = new FileReader();
+
+  progressContainer.style.display = "block";
+  progressBar.style.width = "0%";
+
+  reader.onprogress = (e) => {
+    if (e.lengthComputable) {
+      const percent = Math.round((e.loaded / e.total) * 100);
+      progressBar.style.width = percent + "%";
+    }
+  };
+
   reader.onload = () => {
-    const fileData = { fileName: file.name, size: file.size, category, data: reader.result, timestamp: new Date() };
+    const fileData = { 
+      fileName: file.name || "Unnamed", 
+      size: file.size || 0, 
+      category, 
+      data: reader.result, 
+      timestamp: new Date().toISOString() 
+    };
+
     const tx = dbLocal.transaction("uploads", "readwrite");
     const store = tx.objectStore("uploads");
     store.add(fileData);
 
-    tx.oncomplete = () => { 
-      uploadMessage.textContent = "Upload complete!"; 
-      progressBar.style.width = "0%"; 
-      fileInput.value = ""; 
+    tx.oncomplete = () => {
+      uploadMessage.textContent = "Upload complete!";
+      progressBar.style.width = "0%";
+      fileInput.value = "";
       loadFiles();       
       initDownloads();   
     };
-    tx.onerror = e => { console.error("Error saving file:", e); uploadMessage.textContent = "Upload failed!"; };
+
+    tx.onerror = e => {
+      console.error("Error saving file:", e);
+      uploadMessage.textContent = "Upload failed!";
+    };
   };
 
-  progressContainer.style.display = "block";
-  let pct = 0;
-  const interval = setInterval(() => { 
-    pct += 10; 
-    if (pct > 100) pct = 100; 
-    progressBar.style.width = pct + "%"; 
-    if (pct === 100) clearInterval(interval); 
-  }, 50);
+  reader.onerror = () => {
+    console.error("File reading error!");
+    uploadMessage.textContent = "Upload failed!";
+  };
+
   reader.readAsArrayBuffer(file);
 }
 
+// --- Load files into table ---
 function loadFiles() {
   if (!dbLocal || !tableBody) return;
+
   const tx = dbLocal.transaction("uploads", "readonly");
   const store = tx.objectStore("uploads");
   const request = store.getAll();
-  request.onsuccess = () => { 
-    tableBody.innerHTML = ""; 
-    request.result.forEach(file => addFileToTable(file)); 
-    applyFilters(); 
+
+  request.onsuccess = () => {
+    tableBody.innerHTML = "";
+    request.result.forEach(file => addFileToTable(file));
+    applyFilters();
   };
 }
 
+// --- Add single file to table ---
 function addFileToTable(file) {
-  const tr = document.createElement("tr");
-  tr.innerHTML = `
-    <td>${file.fileName}</td>
-    <td>${(file.size/1024).toFixed(1)} KB</td>
-    <td>${file.category}</td>
-    <td>${file.timestamp.toLocaleString()}</td>
-    <td>Local User</td>
-    <td>
-      <button class="download-btn">Download</button>
-      <button class="delete-btn">Delete</button>
-    </td>
-  `;
+  try {
+    const tr = document.createElement("tr");
 
-  tr.querySelector(".download-btn")?.addEventListener("click", () => {
-    const blob = new Blob([file.data]);
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url; a.download = file.fileName; a.click(); URL.revokeObjectURL(url);
-  });
+    const timestampText = file.timestamp ? new Date(file.timestamp).toLocaleString() : "N/A";
+    const sizeText = file.size ? (file.size / 1024).toFixed(1) + " KB" : "0 KB";
+    const categoryText = file.category || "Unsorted";
+    const fileNameText = file.fileName || "Unnamed";
 
-  tr.querySelector(".delete-btn")?.addEventListener("click", () => {
-    if (!confirm("Delete this file?")) return;
-    const tx = dbLocal.transaction("uploads", "readwrite");
-    tx.objectStore("uploads").delete(file.id);
-    tx.oncomplete = () => { loadFiles(); initDownloads(); };
-  });
+    tr.innerHTML = `
+      <td>${fileNameText}</td>
+      <td>${sizeText}</td>
+      <td>${categoryText}</td>
+      <td>${timestampText}</td>
+      <td>Local User</td>
+      <td>
+        <button class="download-btn">Download</button>
+        <button class="delete-btn">Delete</button>
+      </td>
+    `;
 
-  tableBody.appendChild(tr);
+    tr.querySelector(".download-btn")?.addEventListener("click", () => {
+      if (!file.data) return alert("File data missing!");
+      const blob = new Blob([file.data]);
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = file.fileName || "file";
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+
+    tr.querySelector(".delete-btn")?.addEventListener("click", () => {
+      if (!confirm("Delete this file?")) return;
+      const tx = dbLocal.transaction("uploads", "readwrite");
+      tx.objectStore("uploads").delete(file.id);
+      tx.oncomplete = () => { loadFiles(); initDownloads(); };
+    });
+
+    tableBody.appendChild(tr);
+  } catch (err) {
+    console.error("Error adding file to table:", err, file);
+  }
 }
 
+// --- Filter table (if used for uploads table) ---
 function applyFilters() {
   const q = (searchInput?.value || "").toLowerCase();
   const cat = categoryFilter?.value || "All";
@@ -293,7 +378,7 @@ function applyFilters() {
   });
 }
 
-// ------------------ DOWNLOAD PAGE LOGIC ------------------
+// --- Downloads page logic ---
 const downloadSearch = document.getElementById("downloadSearch");
 const downloadsContainer = document.getElementById("downloadsContainer");
 
@@ -305,21 +390,24 @@ function initDownloads() {
   const request = store.getAll();
 
   request.onsuccess = () => {
+    const files = request.result;
     downloadsContainer.innerHTML = "";
 
+    // Group files by category
     const categories = {};
-    request.result.forEach(file => {
+    files.forEach(file => {
       const cat = file.category || "Unsorted";
       if (!categories[cat]) categories[cat] = [];
       categories[cat].push(file);
     });
 
+    // Create sections per category
     for (const cat in categories) {
       const section = document.createElement("section");
       section.className = "download-section";
 
       const h2 = document.createElement("h2");
-      h2.textContent = cat;
+      h2.innerHTML = `<i class="fa-solid fa-folder"></i> ${cat}`; // Font Awesome folder icon
       section.appendChild(h2);
 
       const container = document.createElement("div");
@@ -330,11 +418,11 @@ function initDownloads() {
         card.className = "download-card";
 
         const span = document.createElement("span");
-        span.textContent = "📄 " + file.fileName;
+        span.innerHTML = `<i class="fa-regular fa-file"></i> ${file.fileName}`; // Font Awesome file icon
 
         const a = document.createElement("a");
         a.className = "btn";
-        a.textContent = "Download";
+        a.innerHTML = '<i class="fa-solid fa-download"></i> Download'; // Font Awesome download icon
         a.href = "#";
         a.addEventListener("click", () => {
           const blob = new Blob([file.data]);
@@ -357,6 +445,7 @@ function initDownloads() {
   };
 }
 
+// --- Search in downloads page ---
 downloadSearch?.addEventListener("input", () => {
   const query = downloadSearch.value.toLowerCase();
   const allCards = downloadsContainer.querySelectorAll(".download-card");

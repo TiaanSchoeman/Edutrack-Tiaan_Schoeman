@@ -1,67 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Edutrack | Downloads</title>
-<link rel="stylesheet" href="CSS/admin.css">
-<script src="https://kit.fontawesome.com/d6e9d7304f.js" crossorigin="anonymous"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edutrack | Downloads</title>
+  <link rel="stylesheet" href="CSS/admin.css">
+  <script src="https://kit.fontawesome.com/d6e9d7304f.js" crossorigin="anonymous"></script>
 </head>
+
 <body>
 
-<aside class="sidebar">
-  <div>
-    <div class="logo">
-      <img src="https://i.pinimg.com/736x/27/d6/ad/27d6ad0843c149d09f5cbf1baf20b631.jpg" alt="logo" />
-      <h2>Edutrack</h2>
-    </div>
-    <nav>
-      <a href="dashboard.html"><i class="fa-solid fa-house"></i> Dashboard</a>
-      <a href="uploadpage.html"><i class="fa-solid fa-circle-up"></i> Uploads</a>
-      <a href="downloadpage.html" class="active"><i class="fa-regular fa-circle-down"></i> Downloads</a>
-      <a href="resourcespage.html"><i class="fa-solid fa-file"></i> Resources</a>
-      <a href="profile.html"><i class="fa-solid fa-user"></i> Profile</a>
-      <a href="../Public/contactpage.html"><i class="fa-solid fa-comment"></i> Contact</a>
-    </nav>
-  </div>
-  <button class="logout-btn" onclick="logoutUser()"><i class="fa-regular fa-circle-xmark"></i> Logout</button>
-</aside>
-
-<main class="main-content">
-  <header>
-    <h1>Download Assessments</h1>
-    <div class="download-search">
-      <input type="text" id="downloadSearch" placeholder="Search downloads...">
-    </div>
-  </header>
-
-  <!-- Sample Static Download Files -->
-  <section class="download-section">
-    <h2>Files</h2>
-    <div class="download-container">
-      <div class="download-card">
-        <span>📄 Sample Assignment 1</span>
-        <a class="btn" href="samples/sample-assignment1.pdf" download>Download</a>
+  <aside class="sidebar">
+    <div>
+      <div class="logo">
+        <img src="https://i.pinimg.com/736x/27/d6/ad/27d6ad0843c149d09f5cbf1baf20b631.jpg" alt="logo" />
+        <h2>Edutrack</h2>
       </div>
-      <div class="download-card">
-        <span>📄 Sample Notes</span>
-        <a class="btn" href="samples/sample-notes.txt" download>Download</a>
-      </div>
-      <div class="download-card">
-        <span>📄 Sample Project</span>
-        <a class="btn" href="samples/sample-project.zip" download>Download</a>
-      </div>
+      <nav>
+        <a href="dashboard.html"><i class="fa-solid fa-house"></i> Dashboard</a>
+        <a href="uploadpage.html"><i class="fa-solid fa-circle-up"></i> Uploads</a>
+        <a href="downloadpage.html" class="active"><i class="fa-regular fa-circle-down"></i> Downloads</a>
+        <a href="resourcespage.html"><i class="fa-solid fa-file"></i> Resources</a>
+        <a href="profile.html"><i class="fa-solid fa-user"></i> Profile</a>
+        <a href="contactpage.html"><i class="fa-solid fa-comment"></i> Contact</a>
+      </nav>
     </div>
-  </section>
+    <button class="logout-btn" onclick="logoutUser()"><i class="fa-regular fa-circle-xmark"></i> Logout</button>
+  </aside>
 
-  <!-- Dynamic Uploaded Files -->
-  <section class="download-section" id="downloadsContainer">
-    <!-- Dynamic uploaded files from IndexedDB will appear here -->
-  </section>
-</main>
+  <main class="main-content">
+    <header style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+      <h1>Download Assessments</h1>
 
-<script type="module" src="../firebase.js"></script>
-<script type="module" src="JS/admin.js"></script>
+      <!-- Styled search bar -->
+      <div class="download-search" style="flex-shrink: 0;">
+        <div class="search-wrapper">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" id="downloadSearch" placeholder="Search downloads..." />
+        </div>
+      </div>
+    </header>
+
+
+    <!-- Static sample downloads -->
+    <section class="download-section">
+      <h2 style="display: flex; align-items: center; gap: 8px;"><i class="fa-solid fa-folder"></i>Files</h2>
+      <div class="download-container">
+        <div class="download-card">
+          <span><i class="fa-solid fa-file-lines"></i> Sample Assignment 1</span>
+          <a class="btn" href="samples/sample-assignment1.pdf" download><i class="fa-solid fa-download"></i>
+            Download</a>
+        </div>
+        <div class="download-card">
+          <span><i class="fa-solid fa-file-lines"></i> Sample Notes</span>
+          <a class="btn" href="samples/sample-notes.txt" download><i class="fa-solid fa-download"></i> Download</a>
+        </div>
+        <div class="download-card">
+          <span><i class="fa-solid fa-file-zipper"></i> Sample Project</span>
+          <a class="btn" href="samples/sample-project.zip" download><i class="fa-solid fa-download"></i> Download</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Dynamic uploaded files -->
+    <section id="downloadsContainer" class="download-section">
+      <!-- IndexedDB files from admin.js appear here -->
+    </section>
+  </main>
+
+  <script type="module" src="../firebase.js"></script>
+  <script type="module" src="JS/admin.js"></script>
 
 </body>
+
 </html>

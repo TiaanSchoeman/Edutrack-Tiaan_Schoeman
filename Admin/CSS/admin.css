@@ -1,19 +1,20 @@
 :root {
-  --bg-main: #0d0d0d;         
-  --bg-panel: #1a1a1a; 
+  --bg-main: #0d0d0d;
+  --bg-panel: #1a1a1a;
   --bg-hover: #252525;
-  --accent: #e2e2e2;    
+  --accent: #e2e2e2;
   --text-primary: #f0f0f0;
   --text-secondary: #aaaaaa;
-  --border-color: rgba(255,255,255,0.1);
+  --border-color: rgba(255, 255, 255, 0.1);
 
   /* New button colors */
-  --btn-bg: #d9a678;        
-  --btn-hover: #f3cb98;     
-  --btn-text: #0d0d0d;      
+  --btn-bg: #d9a678;
+  --btn-hover: #f3cb98;
+  --btn-text: #0d0d0d;
 
   /* Dashboard colors */
-  --card-bg: #1f1a17;       /* dark panel with beige tint */
+  --card-bg: #1f1a17;
+  /* dark panel with beige tint */
   --card-hover: #2c1f17;
   --chart-bg: #1f1a17;
 }
@@ -30,6 +31,26 @@ body {
   min-height: 100vh;
   background-color: var(--bg-main);
   color: var(--text-primary);
+}
+
+i
+
+/* Featured Resources icons */
+.featured-resources .download-card i {
+  font-size: 22px;
+  /* Adjust to your liking */
+}
+
+/* All Resources list icons */
+.notice-board li i {
+  font-size: 22px;
+  /* Adjust to your liking */
+}
+
+h1 {
+  font-size: 2rem;
+  color: var(--accent);
+  margin-bottom: 10px;
 }
 
 /* -------------------- SIDEBAR -------------------- */
@@ -100,8 +121,8 @@ body {
 }
 
 .logout-btn:hover {
-  background-color: var(--bg-hover);
-  color: var(--accent);
+  background-color: var(--btn-hover);
+  color: var(--btn-text);
 }
 
 .user-profile {
@@ -129,16 +150,83 @@ body {
 
 .section {
   margin-bottom: 40px;
-  max-width: 1000px;
-  margin-left: auto;
-  margin-right: auto;
+  width: 100%;
+}
+
+.main-content {
+  padding: 40px 20px;
+}
+
+.main-content h2 {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+  color: var(--accent);
 }
 
 .section-heading {
   font-size: 1.6rem;
-  margin-bottom: 15px;
+  margin: 15px 0 25px 0;
   color: var(--accent);
 }
+
+
+.search-wrapper {
+  display: flex;
+  align-items: center;
+  background-color: var(--bg-hover);
+  border-radius: 6px;
+  padding: 5px 10px;
+}
+
+.search-wrapper input {
+  border: none;
+  background: transparent;
+  color: var(--text-primary);
+  outline: none;
+  flex: 1;
+  padding: 6px 8px;
+  font-size: 0.95rem;
+}
+
+.search-wrapper i {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  margin-left: 8px;
+  cursor: pointer;
+}
+
+.uploaded-list button {
+  background: none;
+  border: 1px solid var(--border-color);
+  color: var(--accent);
+  padding: 5px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+}
+
+
+.uploaded-list button {
+  background-color: var(--btn-bg);
+  color: var(--btn-text);
+  border: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s, color 0.3s;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.9rem;
+}
+
+.uploaded-list button:hover {
+  background-color: var(--btn-hover);
+  transform: translateY(-2px);
+  color: var(--btn-text);
+}
+
 
 /* -------------------- DASHBOARD / CARDS -------------------- */
 .greeting-banner {
@@ -150,14 +238,14 @@ body {
 }
 
 .greeting-banner h1 {
-  font-size: 2rem;
+  font-size: 2.2rem;
   color: var(--accent);
   margin-bottom: 5px;
 }
 
 .greeting-banner p {
   color: var(--text-secondary);
-  font-size: 0.95rem;
+  font-size: 1rem;
 }
 
 /* Cards wrapper */
@@ -167,18 +255,70 @@ body {
   gap: 20px;
 }
 
+/* Notice Board List - keep vertical layout */
+.notice-board {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  /* spacing between items */
+}
+
+/* Each notice item */
+.notice-board li {
+  display: flex;
+  justify-content: space-between;
+  /* left = icon+text, right = date */
+  align-items: center;
+  background-color: var(--card-bg);
+  padding: 15px 20px;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s, box-shadow 0.3s;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+}
+
+/* Left side: icon + notice text */
+.notice-board li .notice-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Date styling - right aligned */
+.notice-board li .notice-date {
+  font-weight: 600;
+  color: var(--btn-bg);
+  white-space: nowrap;
+}
+
+/* Icon color */
+.notice-board li i {
+  color: var(--btn-bg);
+  font-size: 22px;
+}
+
+/* Hover effect */
+.notice-board li:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(243, 203, 160, 0.25);
+}
+
 /* Upcoming assessments cards */
 .upcoming-card {
   background-color: var(--card-bg);
   padding: 20px;
   border-radius: 12px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.4);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
   transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .upcoming-card:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(243,203,160,0.3);
+  box-shadow: 0 8px 20px rgba(243, 203, 160, 0.3);
 }
 
 .upcoming-card h3 {
@@ -191,6 +331,16 @@ body {
   font-size: 0.95rem;
   color: var(--text-secondary);
 }
+
+/* Make icons themed orange */
+i,
+nav a i,
+.notice-board li i,
+.user-profile i,
+.section-heading i {
+  color: var(--btn-bg) !important;
+}
+
 
 /* Line charts wrapper for inline display */
 .line-charts {
@@ -206,13 +356,13 @@ body {
   background-color: var(--chart-bg);
   padding: 20px;
   border-radius: 12px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.4);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
   transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .line-charts .chart-container:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(243,203,160,0.25);
+  box-shadow: 0 8px 20px rgba(243, 203, 160, 0.25);
 }
 
 .line-charts .chart-container h3 {
@@ -236,11 +386,11 @@ body {
 
 .pie-full .chart-container {
   width: 100%;
-  max-width: 450px;  
+  max-width: 450px;
   padding: 20px;
   border-radius: 12px;
   background-color: var(--chart-bg);
-  box-shadow: 0 0 15px rgba(0,0,0,0.4);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
 }
 
 .pie-full .chart-container canvas {
@@ -268,7 +418,7 @@ body {
 
 .download-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 4px 15px rgba(243,203,160,0.2);
+  box-shadow: 0 4px 15px rgba(243, 203, 160, 0.2);
 }
 
 .download-search {
@@ -286,6 +436,50 @@ body {
   width: 250px;
   font-size: 0.95rem;
 }
+
+/* Make download icons white */
+.download-card .btn i,
+.notice-board a i {
+  color: #070707 !important;
+}
+
+/* Search input icon */
+.filter-bar {
+  position: relative;
+}
+
+.filter-bar input {
+  padding-left: 30px;
+  /* space for icon */
+}
+
+.filter-bar .search-icon {
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-secondary);
+  pointer-events: none;
+}
+
+
+/* Make resource cards evenly spaced */
+.download-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  border-radius: 10px;
+  background: var(--card-bg);
+  margin-bottom: 15px;
+}
+
+.download-card div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 
 /* -------------------- NOTICE BOARD -------------------- */
 .notice-board {
@@ -310,7 +504,7 @@ body {
 
 .notice-board li:hover {
   transform: translateY(-3px);
-  box-shadow: 0 4px 10px rgba(243,203,160,0.15);
+  box-shadow: 0 4px 10px rgba(243, 203, 160, 0.15);
 }
 
 .notice-board li i {
@@ -328,7 +522,7 @@ body {
   padding: 35px;
   border-radius: 14px;
   width: 600px;
-  box-shadow: 0 0 12px rgba(0,0,0,0.4);
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.4);
 }
 
 .profile-title {
@@ -367,6 +561,94 @@ body {
   cursor: not-allowed;
 }
 
+.student-card-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.student-card {
+  background-color: var(--bg-panel);
+  color: var(--text-primary);
+  width: 100%;
+  max-width: 1000px;
+  /* adjust if needed */
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 10px;
+}
+
+.card-header img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid var(--btn-bg);
+}
+
+.student-info h3 {
+  margin: 0;
+  color: var(--btn-bg);
+}
+
+.student-info p {
+  margin: 2px 0;
+  color: var(--text-secondary);
+}
+
+.card-details p {
+  margin: 3px 0;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+}
+
+.student-card,
+.profile-wrapper {
+  width: 100%;
+  margin-bottom: 30px;
+  /* space between the cards */
+  box-sizing: border-box;
+}
+
+/* Optional: make the card visually stand out */
+.student-card {
+  background-color: var(--bg-panel);
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Adjust student card header layout */
+.student-card .card-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.student-card img {
+  width: 120px;
+  height: 120px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.student-card .student-info h3 {
+  margin: 0 0 5px 0;
+}
+
+
 /* -------------------- GLOBAL BUTTONS -------------------- */
 .btn,
 .download-container .btn,
@@ -389,6 +671,7 @@ body {
   font-size: 0.95rem;
   border: none;
   cursor: pointer;
+  justify-content: center;
 }
 
 .btn:hover,
@@ -404,6 +687,13 @@ body {
   color: var(--btn-text);
 }
 
+.uploaded-list button,
+.uploaded-list button i {
+  background-color: var(--btn-bg) !important;
+  color: var(--btn-text) !important;
+}
+
+
 .btn i,
 .notice-board a i,
 .edit-btn i,
@@ -411,6 +701,10 @@ body {
 .cancel-btn i,
 .profile-save-btn i {
   margin-right: 4px;
+}
+
+button .edit-btn {
+  text-align: center;
 }
 
 /* -------------------- CONTACT PAGE -------------------- */
@@ -421,7 +715,7 @@ body {
   background-color: var(--bg-panel);
   padding: 30px;
   border-radius: 12px;
-  box-shadow: 0 0 12px rgba(0,0,0,0.5);
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
 }
 
 .campus-card {
@@ -432,7 +726,7 @@ body {
 }
 
 .campus-card h3 {
-  margin-bottom: 8px;
+  margin: 8px 0;
   color: var(--accent);
   font-size: 1.2rem;
 }
@@ -440,6 +734,7 @@ body {
 .campus-card p {
   color: var(--text-primary);
   font-size: 0.95rem;
+  padding: 5px;
 }
 
 .contact-form input,
@@ -454,6 +749,7 @@ body {
 }
 
 .contact-submit {
+  margin: 5px;
   padding: 12px;
   background-color: var(--btn-bg);
   color: var(--btn-text);
@@ -470,7 +766,7 @@ body {
 /* -------------------- CONTACT PAGE LINKS -------------------- */
 .contact-wrapper a,
 .contact-form a {
-  color: var(--btn-bg);      
+  color: var(--btn-bg);
   text-decoration: none;
   font-weight: 600;
   transition: color 0.3s, transform 0.2s;
@@ -478,7 +774,7 @@ body {
 
 .contact-wrapper a:hover,
 .contact-form a:hover {
-  color: var(--btn-hover);    
+  color: var(--btn-hover);
   transform: translateY(-1px);
 }
 
@@ -488,32 +784,206 @@ body {
 }
 
 /* -------------------- RESPONSIVE -------------------- */
-@media(max-width:768px){
+@media(max-width:768px) {
   .sidebar {
     width: 100%;
     height: auto;
     position: relative;
   }
+
   .main-content {
     max-width: 100%;
     padding: 20px;
   }
+
   .profile-container {
     width: 100%;
     padding: 25px;
   }
+
   .contact-wrapper {
     grid-template-columns: 1fr;
   }
+
   .download-search {
     justify-content: center;
   }
+
   .upcoming-assignments,
   .line-charts {
     flex-direction: column;
     grid-template-columns: 1fr;
   }
+
   .chart-container canvas {
     height: 250px !important;
   }
+}
+
+/* ------------------ Upload Page Styling ------------------ */
+.upload-section {
+  background-color: var(--bg-panel);
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  margin: 20px;
+}
+
+.upload-section p {
+  color: var(--text-secondary);
+  margin-bottom: 15px;
+  font-weight: 500;
+}
+
+.upload-area {
+  border: 2px dashed var(--border-color);
+  border-radius: 12px;
+  padding: 50px;
+  text-align: center;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 15px;
+}
+
+.upload-area.dragover {
+  border-color: var(--highlight);
+  background-color: rgba(0, 255, 136, 0.05);
+}
+
+.upload-area p {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.progress-container {
+  margin-top: 15px;
+  height: 10px;
+  background: #333;
+  border-radius: 5px;
+  overflow: hidden;
+  display: none;
+}
+
+.progress-bar {
+  height: 10px;
+  width: 0%;
+  background: var(--highlight);
+  transition: width 0.3s ease;
+}
+
+.upload-message {
+  font-weight: 500;
+  margin-top: 10px;
+  color: var(--text-secondary);
+}
+
+/* Filter bar */
+.filter-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 25px;
+  margin-bottom: 15px;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.filter-bar input,
+.filter-bar select {
+  background-color: var(--bg-hover);
+  border: none;
+  color: var(--text-primary);
+  padding: 8px 12px;
+  border-radius: 6px;
+  outline: none;
+  min-width: 150px;
+}
+
+/* Uploaded files table */
+.uploaded-list {
+  overflow-x: auto;
+}
+
+.uploaded-list table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 15px;
+}
+
+.uploaded-list th,
+.uploaded-list td {
+  border-bottom: 1px solid var(--border-color);
+  padding: 12px;
+  text-align: left;
+  font-size: 0.95rem;
+}
+
+.uploaded-list th {
+  background-color: var(--bg-hover);
+  color: var(--accent);
+}
+
+.uploaded-list button {
+  background: none;
+  border: 1px solid var(--border-color);
+  color: var(--accent);
+  padding: 5px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+}
+
+.uploaded-list button:hover {
+  background: var(--bg-hover);
+  color: var(--highlight);
+}
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+  .filter-bar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .filter-bar input,
+  .filter-bar select {
+    width: 100%;
+  }
+
+  .uploaded-list table,
+  .uploaded-list th,
+  .uploaded-list td {
+    font-size: 0.9rem;
+  }
+}
+
+.download-search .search-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 200px;
+  /* smaller width */
+}
+
+.download-search .search-wrapper i {
+  position: absolute;
+  left: 10px;
+  color: var(--text-secondary);
+  pointer-events: none;
+}
+
+.download-search .search-wrapper input {
+  width: 100%;
+  padding: 6px 10px 6px 30px;
+  /* slightly smaller padding for smaller input */
+  border-radius: 6px;
+  border: none;
+  background-color: var(--bg-hover);
+  color: var(--text-primary);
+  outline: none;
+  font-size: 0.9rem;
+  /* smaller font */
 }
